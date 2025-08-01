@@ -48,12 +48,13 @@ public class BookService {
                 .map(book -> {
                     book.setTitle(updatedBook.getTitle());
                     book.setAuthor(updatedBook.getAuthor());
-                    book.setCondition(updatedBook.getCondition());
+                    book.setPhotoUrl(updatedBook.getPhotoUrl());
                     book.setPrice(updatedBook.getPrice());
                     book.setType(updatedBook.getType());
                     book.setDescription(updatedBook.getDescription());
                     book.setOwnerName(updatedBook.getOwnerName());
-                    book.setOwnerEmail(updatedBook.getOwnerEmail());
+                    book.setContactMethod(updatedBook.getContactMethod());
+                    book.setContactInfo(updatedBook.getContactInfo());
                     return bookRepository.save(book);
                 })
                 .orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
