@@ -1,24 +1,154 @@
-# Compiled class file
+# =====================================
+# COMMUNITY BOOK - MACOS GITIGNORE
+# =====================================
+
+# ========================================
+# JAVA / SPRING BOOT (BACKEND)
+# ========================================
+
+# Compiled files
 *.class
-
-# Log file
-*.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
 *.jar
 *.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+# Logs
+*.log
+logs/
+
+# Maven
+target/
+.mvn/wrapper/maven-wrapper.jar
+
+# Spring Boot
+*.pid
+application-*.properties
+!application-example.properties
+application-*.yml
+!application-example.yml
+
+# ========================================
+# REACT / TYPESCRIPT (FRONTEND)
+# ========================================
+
+# Dependencies
+node_modules/
+
+# Build outputs
+build/
+dist/
+.next/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test coverage
+coverage/
+
+# Cache
+.eslintcache
+.cache/
+
+# ========================================
+# DATABASE
+# ========================================
+
+# Database dumps
+*.sql
+*.dump
+*.backup
+
+# Local database data
+/database/data/
+/postgres-data/
+
+# ========================================
+# MACOS
+# ========================================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# ========================================
+# IDE FILES
+# ========================================
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# ========================================
+# SECURITY & SECRETS
+# ========================================
+
+# Environment files
+.env*
+!.env.example
+
+# API keys and secrets
+secrets.json
+*.pem
+*.key
+*.crt
+
+# ========================================
+# DEVELOPMENT TOOLS
+# ========================================
+
+# Postman
+*.postman_environment
+*.postman_collection
+
+# AWS
+.aws/
+aws-exports.js
+amplify/
+.amplifyrc
+amplify-meta.json
+amplify/#current-cloud-backend/
+*.zip
+deployment/
+
+# Terraform (if using Infrastructure as Code)
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Docker
+Dockerfile.local
+docker-compose.override.yml
+
+# Temporary files
+*.tmp
+*.bak
+*~
+
+# Local configuration
+local.properties
+local-config.json
