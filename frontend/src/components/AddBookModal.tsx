@@ -38,38 +38,50 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ onClose, onBookAdded }) => 
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Create new book object (in real app, this would call the API)
-    const newBook: Book = {
-      id: Date.now(), // Temporary ID generation
+    // Prepare book data for backend
+    const newBook = {
       title: formData.title,
       author: formData.author,
       price: formData.type === 'SELL' ? parseFloat(formData.price) || 0 : 0,
-      type: formData.type as 'SELL' | 'GIVEAWAY',
+      type: formData.type,
       description: formData.description,
       photoUrl: formData.photoPreview || 'https://via.placeholder.com/300x400/ccc/white?text=No+Image',
       ownerName: formData.ownerName,
-      contactMethod: formData.contactMethod as 'EMAIL' | 'PHONE',
+      contactMethod: formData.contactMethod,
       contactInfo: formData.contactInfo
     };
-
-    onBookAdded(newBook);
-    
-    // Reset form
-    setFormData({
-      title: '',
-      author: '',
-      price: '',
-      type: 'SELL',
-      description: '',
-      photo: null,
-      photoPreview: '',
-      ownerName: '',
-      contactMethod: 'EMAIL',
-      contactInfo: ''
-    });
+    try {
+      const response = await fetch("http://localhost:8080/api/v1/books", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newBook)
+      });
+      if (!response.ok) {
+        throw new Error('Failed to add book');
+      }
+      const savedBook = await response.json();
+      onBookAdded(savedBook);
+      // Reset form
+      setFormData({
+        title: '',
+        author: '',
+        price: '',
+        type: 'SELL',
+        description: '',
+        photo: null,
+        photoPreview: '',
+        ownerName: '',
+        contactMethod: 'EMAIL',
+        contactInfo: ''
+      });
+    } catch (error) {
+      alert('Failed to add book. Please try again.');
+      console.error(error);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

@@ -22,85 +22,29 @@ const HomePage: React.FC = () => {
   const [showAddBookModal, setShowAddBookModal] = useState(false);
 
   useEffect(() => {
-    // This will call the Spring Boot API once it's implemented
-    // For now, we'll use mock data
-    setTimeout(() => {
-      setBooks([
-        {
-          id: 1,
-          title: "The Great Gatsby",
-          author: "F. Scott Fitzgerald",
-          price: 5.00,
-          type: "SELL",
-          description: "Classic American novel in good condition. Some wear on the cover but all pages are intact and readable. A timeless story of love, wealth, and the American Dream.",
-          photoUrl: "https://via.placeholder.com/300x400/4CAF50/white?text=The+Great+Gatsby",
-          ownerName: "John Doe",
-          contactMethod: "EMAIL",
-          contactInfo: "john@example.com"
-        },
-        {
-          id: 2,
-          title: "To Kill a Mockingbird",
-          author: "Harper Lee",
-          price: 0.00,
-          type: "GIVEAWAY",
-          description: "Free to a good home! This book changed my life and I want to share it with someone who will appreciate it. In excellent condition, barely read.",
-          photoUrl: "https://via.placeholder.com/300x400/2196F3/white?text=To+Kill+a+Mockingbird",
-          ownerName: "Jane Smith",
-          contactMethod: "PHONE",
-          contactInfo: "(555) 123-4567"
-        },
-        {
-          id: 3,
-          title: "1984",
-          author: "George Orwell",
-          price: 3.50,
-          type: "SELL",
-          description: "Dystopian masterpiece. Some wear but still very readable. Perfect for anyone interested in political fiction.",
-          photoUrl: "https://via.placeholder.com/300x400/FF9800/white?text=1984",
-          ownerName: "Bob Johnson",
-          contactMethod: "EMAIL",
-          contactInfo: "bob@example.com"
-        },
-        {
-          id: 4,
-          title: "Pride and Prejudice",
-          author: "Jane Austen",
-          price: 0.00,
-          type: "GIVEAWAY",
-          description: "Classic romance novel. I've read it multiple times and now it's time to pass it on to another book lover.",
-          photoUrl: "https://via.placeholder.com/300x400/E91E63/white?text=Pride+and+Prejudice",
-          ownerName: "Alice Brown",
-          contactMethod: "PHONE",
-          contactInfo: "(555) 987-6543"
-        },
-        {
-          id: 5,
-          title: "The Catcher in the Rye",
-          author: "J.D. Salinger",
-          price: 7.00,
-          type: "SELL",
-          description: "Like new condition! Bought it but never got around to reading it. Your gain!",
-          photoUrl: "https://via.placeholder.com/300x400/9C27B0/white?text=The+Catcher+in+the+Rye",
-          ownerName: "Charlie Wilson",
-          contactMethod: "EMAIL",
-          contactInfo: "charlie@example.com"
-        },
-        {
-          id: 6,
-          title: "Harry Potter and the Sorcerer's Stone",
-          author: "J.K. Rowling",
-          price: 4.00,
-          type: "SELL",
-          description: "The book that started it all! Some minor wear from being well-loved.",
-          photoUrl: "https://via.placeholder.com/300x400/607D8B/white?text=Harry+Potter",
-          ownerName: "Diana Prince",
-          contactMethod: "PHONE",
-          contactInfo: "(555) 246-8135"
+    // Fetch real data from backend /books endpoint
+    fetch("http://localhost:8080/api/v1/books")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch books");
         }
-      ]);
-      setLoading(false);
-    }, 1000);
+        return response.json();
+      })
+      .then((data) => {
+        setBooks(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setBooks([]);
+        setLoading(false);
+      });
+    //
+    // Mock data (commented out):
+    // setTimeout(() => {
+    //   setBooks([...]);
+    //   setLoading(false);
+    // }, 1000);
   }, []);
 
   const handleBookClick = (book: Book) => {
