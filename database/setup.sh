@@ -68,6 +68,9 @@ psql -d postgres -c "GRANT ALL PRIVILEGES ON DATABASE $DB_NAME TO $DB_USER;"
 echo "Running schema setup..."
 psql -d $DB_NAME -f schema.sql
 
+# Grant privileges on all tables in public schema (in case tables were created after user)
+psql -d $DB_NAME -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO $DB_USER;"
+
 # Done
 echo "Database setup complete!"
 echo ""

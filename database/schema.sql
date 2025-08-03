@@ -40,3 +40,6 @@ INSERT INTO books (title, author, photo_url, price, type, description, owner_nam
 ('1984', 'George Orwell', 'https://via.placeholder.com/300x400/FF9800/white?text=1984', 3.50, 'SELL', 'Some wear but still readable', 'Bob Johnson', 'PHONE', '(555) 123-4567'),
 ('Pride and Prejudice', 'Jane Austen', 'https://via.placeholder.com/300x400/E91E63/white?text=Pride+and+Prejudice', 0.00, 'GIVEAWAY', 'Classic romance novel', 'Alice Brown', 'EMAIL', 'alice@example.com'),
 ('The Catcher in the Rye', 'J.D. Salinger', 'https://via.placeholder.com/300x400/9C27B0/white?text=The+Catcher+in+the+Rye', 7.00, 'SELL', 'Like new condition', 'Charlie Wilson', 'PHONE', '(555) 987-6543');
+
+-- Grant all privileges on all tables in public schema to the user
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO communitybook_user;
