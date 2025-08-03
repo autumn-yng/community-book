@@ -21,8 +21,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     // Find books by title (case-insensitive)
     List<Book> findByTitleContainingIgnoreCase(String title);
     
-    // Find books by owner email
-    List<Book> findByOwnerEmail(String ownerEmail);
     
     // Custom query to search books by title or author
     @Query("SELECT b FROM Book b WHERE " +

@@ -19,23 +19,56 @@ if ! pgrep -x "postgres" > /dev/null; then
     exit 1
 fi
 
+# Load environment variables from .env
+set -a
+[ -f .env ] && source .env
+set +a
+
 # Database configuration
-DB_NAME="communitybook_db"
-DB_USER="communitybook_user"
-DB_PASSWORD="change_this_password"
+DB_NAME="${DB_NAME:-communitybook_db}"
+DB_USER="${DB_USER:-communitybook_user}"
+DB_PASSWORD="${DB_PASSWORD:-change-this-password}"
 
+echo "DB_USER is: $DB_USER"
+
+# Warn if password is default
+if [ "$DB_PASSWORD" = "change-this-password" ]; then
+    echo "WARNING: Using default password. Please set DB_PASSWORD in your .env file or export it."
+    echo "Example: export DB_PASSWORD='your_secure_password'"
+fi
+
+# Drop existing database and user
+echo "Dropping existing database and user (if they exist)..."
+psql -d postgres -c "DROP DATABASE IF EXISTS $DB_NAME;"
+psql -d postgres -c \
+"DO \$\$ BEGIN 
+   IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '$DB_USER') THEN 
+     EXECUTE 'DROP USER $DB_USER'; 
+   END IF; 
+ END \$\$;"
+
+# Create database
 echo "Creating database and user..."
+psql -d postgres -c "CREATE DATABASE $DB_NAME;" 2>/dev/null || echo "Database $DB_NAME already exists"
 
-# Create database and user
-psql -U postgres -c "CREATE DATABASE $DB_NAME;" 2>/dev/null || echo "Database $DB_NAME already exists"
-psql -U postgres -c "CREATE USER $DB_USER WITH ENCRYPTED PASSWORD '$DB_PASSWORD';" 2>/dev/null || echo "User $DB_USER already exists"
-psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE $DB_NAME TO $DB_USER;"
+# Create user with password if it doesn't exist
+psql -d postgres -c \
+"DO \$\$ 
+ BEGIN 
+   IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '$DB_USER') THEN 
+     EXECUTE format('CREATE USER %I WITH ENCRYPTED PASSWORD %L', '$DB_USER', '$DB_PASSWORD'); 
+   END IF; 
+ END 
+\$\$;"
 
+# Grant privileges
+psql -d postgres -c "GRANT ALL PRIVILEGES ON DATABASE $DB_NAME TO $DB_USER;"
+
+# Apply schema
 echo "Running schema setup..."
+psql -d $DB_NAME -f schema.sql
 
-# Run the schema file
-psql -U postgres -d $DB_NAME -f schema.sql
-
+# Done
 echo "Database setup complete!"
 echo ""
 echo "Database Details:"

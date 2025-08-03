@@ -63,9 +63,6 @@ public class BookService {
         return bookRepository.findByTitleOrAuthorContaining(searchTerm);
     }
     
-    public List<Book> getBooksByOwner(String ownerEmail) {
-        return bookRepository.findByOwnerEmail(ownerEmail);
-    }
     
     public Book updateBook(Long id, Book updatedBook) {
         // Business logic: required fields
