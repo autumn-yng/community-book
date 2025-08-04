@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import heic2any from 'heic2any';
 
 interface Book {
   id: number;
@@ -91,9 +92,29 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ onClose, onBookAdded }) => 
     });
   };
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
+    if (!file) return;
+
+    // If file is HEIC, convert to JPEG using heic2any
+    if (file.type === 'image/heic' || file.name.toLowerCase().endsWith('.heic')) {
+      try {
+        const convertedBlob = await heic2any({
+          blob: file,
+          toType: 'image/jpeg',
+          quality: 0.9
+        });
+        const jpegFile = new File([convertedBlob as Blob], file.name.replace(/\.heic$/i, '.jpg'), { type: 'image/jpeg' });
+        setFormData({
+          ...formData,
+          photo: jpegFile,
+          photoPreview: URL.createObjectURL(jpegFile)
+        });
+      } catch (err) {
+        alert('Failed to convert HEIC image. Please try another file.');
+        console.error(err);
+      }
+    } else {
       setFormData({
         ...formData,
         photo: file,
@@ -151,7 +172,7 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ onClose, onBookAdded }) => 
                 type="file"
                 id="photo"
                 name="photo"
-                accept="image/*"
+                accept=".jpg,.jpeg,.png,.heic,image/heic,image/jpeg,image/png"
                 onChange={handlePhotoChange}
                 required
               />
