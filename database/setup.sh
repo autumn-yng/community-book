@@ -71,6 +71,12 @@ psql -d $DB_NAME -f schema.sql
 # Grant privileges on all tables in public schema (in case tables were created after user)
 psql -d $DB_NAME -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO $DB_USER;"
 
+# Grant usage and select on the books_id_seq sequence (needed for inserts)
+psql -d $DB_NAME -c "GRANT USAGE, SELECT ON SEQUENCE books_id_seq TO $DB_USER;"
+
+# Grant all privileges on all sequences in public schema (future-proof for other serial columns)
+psql -d $DB_NAME -c "GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO $DB_USER;"
+
 # Done
 echo "Database setup complete!"
 echo ""

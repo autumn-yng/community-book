@@ -43,3 +43,7 @@ INSERT INTO books (title, author, photo_url, price, type, description, owner_nam
 
 -- Grant all privileges on all tables in public schema to the user
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO communitybook_user;
+-- Grant usage and select on the books_id_seq sequence to the user
+GRANT USAGE, SELECT ON SEQUENCE books_id_seq TO communitybook_user;
+-- Grant all privileges on all sequences in public schema to the user (future-proof)
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO communitybook_user;
