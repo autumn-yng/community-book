@@ -52,7 +52,16 @@ const BookDetailsModal: React.FC<BookDetailsModalProps> = ({ book, onClose }) =>
 
         <div className="modal-body">
           <div className="book-image-large">
-            <img src={book.photoUrl} alt={book.title} />
+            <img 
+              src={book.photoUrl && book.photoUrl.startsWith('/api/v1/books/') 
+                ? `http://localhost:8080${book.photoUrl}` 
+                : `http://localhost:8080/api/v1/books/${book.id}/photo`} 
+              alt={book.title}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjI2MCIgdmlld0JveD0iMCAwIDIwMCAyNjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjYwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik04NSA5NUgxMTVWMTI1SDg1Vjk1WiIgZmlsbD0iI0Q1REJEQiIvPgo8cGF0aCBkPSJNNzAgMTQwSDEzMFYxNTVINzBWMTQwWiIgZmlsbD0iI0Q1REJEQiIvPgo8cGF0aCBkPSJNNzAgMTY1SDEzMFYxODBINzBWMTY1WiIgZmlsbD0iI0Q1REJEQiIvPgo8L3N2Zz4K';
+              }}
+            />
           </div>
 
           <div className="book-info-section">

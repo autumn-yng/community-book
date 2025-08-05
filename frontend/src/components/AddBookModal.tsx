@@ -41,25 +41,28 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ onClose, onBookAdded }) => 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Prepare book data for backend
+    if (!formData.photo) {
+      alert('Please select a photo.');
+      return;
+    }
+    // Prepare book data for backend (without photoUrl, backend will set it)
     const newBook = {
       title: formData.title,
       author: formData.author,
       price: formData.type === 'SELL' ? parseFloat(formData.price) || 0 : 0,
       type: formData.type,
       description: formData.description,
-      photoUrl: formData.photoPreview || 'https://via.placeholder.com/300x400/ccc/white?text=No+Image',
       ownerName: formData.ownerName,
       contactMethod: formData.contactMethod,
       contactInfo: formData.contactInfo
     };
+    const form = new FormData();
+    form.append('book', new Blob([JSON.stringify(newBook)], { type: 'application/json' }));
+    form.append('photo', formData.photo);
     try {
-      const response = await fetch("http://localhost:8080/api/v1/books", {
+      const response = await fetch("http://localhost:8080/api/v1/books/upload", {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newBook)
+        body: form
       });
       if (!response.ok) {
         throw new Error('Failed to add book');

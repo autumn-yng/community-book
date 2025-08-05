@@ -28,6 +28,9 @@ public class Book {
     @Size(max = 500)
     private String photoUrl;
     
+    @Column(name = "photo_data")
+    private byte[] photoData;
+    
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Type is required")
     private BookType type;
@@ -56,12 +59,13 @@ public class Book {
     public Book() {}
     
     public Book(String title, String author, BigDecimal price, String photoUrl,
-               BookType type, String description, String ownerName, 
+               byte[] photoData, BookType type, String description, String ownerName, 
                String contactMethod, String contactInfo) {
         this.title = title;
         this.author = author;
         this.price = price;
         this.photoUrl = photoUrl;
+        this.photoData = photoData;
         this.type = type;
         this.description = description;
         this.ownerName = ownerName;
@@ -95,6 +99,9 @@ public class Book {
     
     public String getPhotoUrl() { return photoUrl; }
     public void setPhotoUrl(String photoUrl) { this.photoUrl = photoUrl; }
+    
+    public byte[] getPhotoData() { return photoData; }
+    public void setPhotoData(byte[] photoData) { this.photoData = photoData; }
     
     public BookType getType() { return type; }
     public void setType(BookType type) { this.type = type; }

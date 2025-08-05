@@ -1,4 +1,3 @@
-
 // This file defines the RESTful API endpoints for managing books in the application.
 // It uses Spring Boot's REST controller features to map HTTP requests to Java methods.
 package com.communitybook.controller;
@@ -11,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.MediaType;
 
+import java.io.IOException;
 import java.util.List;
 
 // Marks this class as a REST controller, so its methods handle HTTP requests and return data (usually JSON)
@@ -42,14 +44,63 @@ public class BookController {
                 .orElse(ResponseEntity.notFound().build());
     }
     
-    // Handles POST requests to /api/books
-    // Creates a new book with the data provided in the request body
-    @PostMapping
-    public ResponseEntity<Book> createBook(@Valid @RequestBody Book book) {
+    // Handles POST requests to /api/v1/books/upload (multipart form for image upload)
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Book> createBookWithImage(
+            @RequestPart("book") Book book,
+            @RequestPart("photo") MultipartFile photo
+    ) throws IOException {
+        book.setPhotoData(photo.getBytes());
+        // Optionally set photoUrl to a download endpoint
+        book.setPhotoUrl("/api/v1/books/" + book.getId() + "/photo");
         Book savedBook = bookService.saveBook(book);
+        // Update photoUrl with the real id after save
+        savedBook.setPhotoUrl("/api/v1/books/" + savedBook.getId() + "/photo");
+        bookService.saveBook(savedBook);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
     }
+
+    // Endpoint to serve the book image
+    @GetMapping("/{id}/photo")
+    public ResponseEntity<byte[]> getBookPhoto(@PathVariable Long id) {
+        return bookService.getBookById(id)
+                .filter(book -> book.getPhotoData() != null)
+                .map(book -> {
+                    // Detect image format from byte data
+                    byte[] imageData = book.getPhotoData();
+                    MediaType contentType = detectImageMediaType(imageData);
+                    return ResponseEntity.ok()
+                            .contentType(contentType)
+                            .body(imageData);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
     
+    private MediaType detectImageMediaType(byte[] imageData) {
+        if (imageData.length < 4) {
+            return MediaType.APPLICATION_OCTET_STREAM;
+        }
+        
+        // Check for JPEG signature (FF D8)
+        if (imageData[0] == (byte) 0xFF && imageData[1] == (byte) 0xD8) {
+            return MediaType.IMAGE_JPEG;
+        }
+        // Check for PNG signature (89 50 4E 47)
+        if (imageData[0] == (byte) 0x89 && imageData[1] == 0x50 && 
+            imageData[2] == 0x4E && imageData[3] == 0x47) {
+            return MediaType.IMAGE_PNG;
+        }
+        // Check for WebP signature (52 49 46 46)
+        if (imageData[0] == 0x52 && imageData[1] == 0x49 && 
+            imageData[2] == 0x46 && imageData[3] == 0x46) {
+            return MediaType.parseMediaType("image/webp");
+        }
+        
+        // Default to JPEG if unknown
+        return MediaType.IMAGE_JPEG;
+    }
+    
+
     // Handles PUT requests to /api/books/{id}
     // Updates an existing book by its ID with the data provided in the request body
     @PutMapping("/{id}")
@@ -89,5 +140,4 @@ public class BookController {
         return ResponseEntity.ok(books);
     }
     
-
 }
