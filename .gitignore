@@ -26,6 +26,10 @@ application-*.properties
 application-*.yml
 !application-example.yml
 
+# Environment variables
+.env
+backend/.env
+
 # ========================================
 # REACT / TYPESCRIPT (FRONTEND)
 # ========================================
