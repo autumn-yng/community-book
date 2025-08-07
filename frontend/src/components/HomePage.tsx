@@ -39,12 +39,6 @@ const HomePage: React.FC = () => {
         setBooks([]);
         setLoading(false);
       });
-    //
-    // Mock data (commented out):
-    // setTimeout(() => {
-    //   setBooks([...]);
-    //   setLoading(false);
-    // }, 1000);
   }, []);
 
   const handleBookClick = (book: Book) => {
