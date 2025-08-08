@@ -35,7 +35,8 @@ describe('HomePage', () => {
   });
 
   test('displays loading state initially', () => {
-    // Mock fetch to not resolve immediately
+    // Mock the fetch function
+	// Here, new Promise(() => {}) makes it never get resolved so that we can test the loading state
     global.fetch = vi.fn().mockImplementation(() => new Promise(() => {}));
     
     render(<HomePage />);

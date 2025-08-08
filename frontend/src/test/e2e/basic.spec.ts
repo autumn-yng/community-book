@@ -2,11 +2,13 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Community Book Exchange - Core Functionality', () => {
   test.beforeEach(async ({ page }) => {
-    // Mock the API to prevent actual backend calls
-    await page.route('**/api/v1/books', async route => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
+    // Intercept real HTTP requests and return fake data
+    // Playwright has built-in wait so we don't need waitFor() like in other tests that use React Testing Library
+    await page.route('**/api/v1/books', async interceptedRequest => {
+      // Tell Playwright to response to this intercepted request not by going to the backend to get the data but by the taking the mock data provided in the bracket
+      await interceptedRequest.fulfill({
+        status: 200, // HTTP 200 = OK
+        contentType: 'application/json', // Let the browser know it's JSON
         body: JSON.stringify([
           {
             id: 1,
@@ -36,74 +38,70 @@ test.describe('Community Book Exchange - Core Functionality', () => {
       });
     });
 
-    // Mock image loading
-    await page.route('**/api/v1/books/*/photo', async route => {
-      await route.fulfill({
+    // Intercept requests for book photo URLs and return a placeholder SVG image
+    await page.route('**/api/v1/books/*/photo', async interceptedImageRequest => {
+      await interceptedImageRequest.fulfill({
         status: 200,
         contentType: 'image/svg+xml',
         body: '<svg width="200" height="260" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="260" fill="#F3F4F6"/></svg>'
       });
     });
 
+    // After mocks for backend data are set up, go to a real browser and open a real page object with real network requests, layout, rendering, and browser APIs
     await page.goto('/');
   });
 
   test('displays book list correctly', async ({ page }) => {
-    // Wait for books to load
+    // Wait until the heading is visible (ensures data is loaded)
     await expect(page.getByText('📚 Community Book Exchange')).toBeVisible();
-    
-    // Check that books are displayed
+
+    // Verify both mocked books are displayed
     await expect(page.getByText('The Great Gatsby')).toBeVisible();
     await expect(page.getByText('To Kill a Mockingbird')).toBeVisible();
-    
-    // Check book details
+
+    // Verify authors
     await expect(page.getByText('by F. Scott Fitzgerald')).toBeVisible();
     await expect(page.getByText('by Harper Lee')).toBeVisible();
-    
-    // Check price/type badges
+
+    // Verify price/type labels
     await expect(page.getByText('💰 $12.99')).toBeVisible();
     await expect(page.getByText('🎁 FREE')).toBeVisible();
   });
 
   test('opens book details modal when book is clicked', async ({ page }) => {
-    // Wait for books to load and click on a book
     await expect(page.getByText('The Great Gatsby')).toBeVisible();
     await page.getByText('The Great Gatsby').click();
 
-    // Check that modal opens with book details
+    // Verify modal shows contact details
     await expect(page.getByText('📧 alice@example.com')).toBeVisible();
     await expect(page.getByText('📧 Send Email')).toBeVisible();
-    
+
     // Close modal
     await page.getByText('✕').click();
     await expect(page.getByText('📧 alice@example.com')).not.toBeVisible();
   });
 
   test('opens add book modal when FAB is clicked', async ({ page }) => {
-    // Wait for page to load
     await expect(page.getByText('📚 Community Book Exchange')).toBeVisible();
-    
-    // Click the floating action button
     await page.getByTitle('Add a book').click();
 
-    // Check that add book modal opens
+    // Verify add book modal UI elements
     await expect(page.getByText('📚 List a New Book')).toBeVisible();
     await expect(page.locator('input[name="title"]')).toBeVisible();
-    
+
     // Close modal
     await page.getByText('✕').click();
     await expect(page.getByText('📚 List a New Book')).not.toBeVisible();
   });
 
   test('add book form validation works', async ({ page }) => {
-    // Open add book modal
     await page.getByTitle('Add a book').click();
     await expect(page.getByText('📚 List a New Book')).toBeVisible();
 
-    // Try to submit without filling required fields
+    // Try submitting without filling required fields
     await page.getByText('📚 List Book').click();
 
-    // Should show validation alert
+    // Listen for browser alert dialog
     page.on('dialog', async dialog => {
       expect(dialog.message()).toBe('Please select a photo.');
       await dialog.accept();
@@ -111,32 +109,27 @@ test.describe('Community Book Exchange - Core Functionality', () => {
   });
 
   test('contact functionality works', async ({ page }) => {
-    // Mock window.open for email contact
+    // Prevent actual browser "open new tab" when testing email
     await page.addInitScript(() => {
       window.open = () => null;
     });
 
-    // Click on a book to open details
+    // Test email contact
     await expect(page.getByText('The Great Gatsby')).toBeVisible();
     await page.getByText('The Great Gatsby').click();
-
-    // Click contact button
     await page.getByText('📧 Send Email').click();
-    
-    // For phone contact, test the copy functionality
-    await page.getByText('✕').click(); // Close current modal
+
+    // Test phone contact copy-to-clipboard
+    await page.getByText('✕').click(); // Close email modal
     await page.getByText('To Kill a Mockingbird').click();
-    
-    // Mock clipboard API
+
     await page.addInitScript(() => {
       Object.defineProperty(navigator, 'clipboard', {
-        value: {
-          writeText: () => Promise.resolve()
-        },
+        value: { writeText: () => Promise.resolve() },
         writable: true
       });
     });
-    
+
     await page.getByText('📞 Copy Phone Number').click();
   });
 });
