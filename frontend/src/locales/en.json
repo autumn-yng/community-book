@@ -1,0 +1,69 @@
+{
+  "header": {
+    "title": "📚 Community Book Exchange",
+    "subtitle": "Share books with your local community"
+  },
+  "loading": {
+    "text": "Loading books..."
+  },
+  "book": {
+    "by": "by",
+    "owner": "📍",
+    "type": {
+      "free": "🎁 FREE",
+      "sale": "💰 For sale"
+    },
+    "contact": {
+      "email": "📧 Send Email",
+      "phone": "📞 Copy Phone Number",
+      "phoneAlert": "Phone number copied to clipboard:"
+    }
+  },
+  "modal": {
+    "bookDetails": {
+      "type": "Type:",
+      "description": "Description:",
+      "contact": "Contact Information:",
+      "freeGiveaway": "🎁 Free Giveaway",
+      "forSale": "💰 For Sale"
+    },
+    "addBook": {
+      "title": "Add a New Book",
+      "form": {
+        "bookTitle": "Book Title",
+        "author": "Author",
+        "type": "Type",
+        "sell": "For Sale",
+        "giveaway": "Free Giveaway",
+        "price": "Price ($)",
+        "description": "Description",
+        "photo": "Book Photo",
+        "chooseFile": "Choose file",
+        "ownerName": "Your Name",
+        "contactMethod": "Contact Method",
+        "email": "Email",
+        "phone": "Phone",
+        "contactInfo": "Contact Information",
+        "emailPlaceholder": "your.email@example.com",
+        "phonePlaceholder": "+1 (555) 123-4567"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "addBook": "Add Book"
+      },
+      "validation": {
+        "photoRequired": "Please select a photo.",
+        "uploadFailed": "Failed to add book. Please try again.",
+        "heicConversionFailed": "Failed to convert HEIC image. Please try another file."
+      }
+    }
+  },
+  "fab": {
+    "tooltip": "Add a book"
+  },
+  "language": {
+    "selector": {
+      "tooltip": "Change Language"
+    }
+  }
+}

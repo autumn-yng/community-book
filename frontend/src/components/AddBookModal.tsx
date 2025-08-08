@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import heic2any from 'heic2any';
 
 interface Book {
@@ -20,6 +21,7 @@ interface AddBookModalProps {
 }
 
 const AddBookModal: React.FC<AddBookModalProps> = ({ onClose, onBookAdded }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     title: '',
     author: '',
@@ -42,7 +44,7 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ onClose, onBookAdded }) => 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.photo) {
-      alert('Please select a photo.');
+      alert(t('modal.addBook.validation.photoRequired'));
       return;
     }
     // Prepare book data for backend (without photoUrl, backend will set it)
@@ -83,7 +85,7 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ onClose, onBookAdded }) => 
         contactInfo: ''
       });
     } catch (error) {
-      alert('Failed to add book. Please try again.');
+      alert(t('modal.addBook.validation.uploadFailed'));
       console.error(error);
     }
   };
@@ -134,15 +136,14 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ onClose, onBookAdded }) => 
         </button>
         
         <div className="modal-header">
-          <h2>📚 List a New Book</h2>
-          <p>Share a book with your community</p>
+          <h2>{t('modal.addBook.title')}</h2>
         </div>
 
         <div className="modal-body">
           <form onSubmit={handleSubmit}>
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="title">Book Title *</label>
+                <label htmlFor="title">{t('modal.addBook.form.bookTitle')} *</label>
                 <input
                   type="text"
                   id="title"
@@ -150,12 +151,12 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ onClose, onBookAdded }) => 
                   value={formData.title}
                   onChange={handleChange}
                   required
-                  placeholder="Enter book title"
+                  placeholder={t('modal.addBook.form.bookTitle')}
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="author">Author *</label>
+                <label htmlFor="author">{t('modal.addBook.form.author')} *</label>
                 <input
                   type="text"
                   id="author"
@@ -163,14 +164,14 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ onClose, onBookAdded }) => 
                   value={formData.author}
                   onChange={handleChange}
                   required
-                  placeholder="Enter author name"
+                  placeholder={t('modal.addBook.form.author')}
                 />
               </div>
             </div>
 
             {/* Photo Upload */}
             <div className="form-group">
-              <label htmlFor="photo">Book Photo *</label>
+              <label htmlFor="photo">{t('modal.addBook.form.photo')} *</label>
               <input
                 type="file"
                 id="photo"
@@ -188,21 +189,21 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ onClose, onBookAdded }) => 
 
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="type">Listing Type *</label>
+                <label htmlFor="type">{t('modal.addBook.form.type')} *</label>
                 <select
                   id="type"
                   name="type"
                   value={formData.type}
                   onChange={handleChange}
                 >
-                  <option value="SELL">For Sale</option>
-                  <option value="GIVEAWAY">Free Giveaway</option>
+                  <option value="SELL">{t('modal.addBook.form.sell')}</option>
+                  <option value="GIVEAWAY">{t('modal.addBook.form.giveaway')}</option>
                 </select>
               </div>
 
               {formData.type === 'SELL' && (
                 <div className="form-group">
-                  <label htmlFor="price">Price ($) *</label>
+                  <label htmlFor="price">{t('modal.addBook.form.price')} *</label>
                   <input
                     type="number"
                     id="price"
@@ -218,20 +219,20 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ onClose, onBookAdded }) => 
             </div>
 
             <div className="form-group">
-              <label htmlFor="description">Description</label>
+              <label htmlFor="description">{t('modal.addBook.form.description')}</label>
               <textarea
                 id="description"
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
                 rows={3}
-                placeholder="Tell people about this book..."
+                placeholder={t('modal.addBook.form.description')}
               />
             </div>
 
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="ownerName">Your Name *</label>
+                <label htmlFor="ownerName">{t('modal.addBook.form.ownerName')} *</label>
                 <input
                   type="text"
                   id="ownerName"
@@ -239,27 +240,27 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ onClose, onBookAdded }) => 
                   value={formData.ownerName}
                   onChange={handleChange}
                   required
-                  placeholder="Enter your name"
+                  placeholder={t('modal.addBook.form.ownerName')}
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="contactMethod">Contact Method *</label>
+                <label htmlFor="contactMethod">{t('modal.addBook.form.contactMethod')} *</label>
                 <select
                   id="contactMethod"
                   name="contactMethod"
                   value={formData.contactMethod}
                   onChange={handleChange}
                 >
-                  <option value="EMAIL">Email</option>
-                  <option value="PHONE">Phone</option>
+                  <option value="EMAIL">{t('modal.addBook.form.email')}</option>
+                  <option value="PHONE">{t('modal.addBook.form.phone')}</option>
                 </select>
               </div>
             </div>
 
             <div className="form-group">
               <label htmlFor="contactInfo">
-                {formData.contactMethod === 'EMAIL' ? 'Your Email *' : 'Your Phone Number *'}
+                {formData.contactMethod === 'EMAIL' ? t('modal.addBook.form.contactInfo') : t('modal.addBook.form.contactInfo')} *
               </label>
               <input
                 type={formData.contactMethod === 'EMAIL' ? 'email' : 'tel'}
@@ -268,16 +269,16 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ onClose, onBookAdded }) => 
                 value={formData.contactInfo}
                 onChange={handleChange}
                 required
-                placeholder={formData.contactMethod === 'EMAIL' ? 'your.email@example.com' : '(555) 123-4567'}
+                placeholder={formData.contactMethod === 'EMAIL' ? t('modal.addBook.form.emailPlaceholder') : t('modal.addBook.form.phonePlaceholder')}
               />
             </div>
 
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" onClick={onClose}>
-                Cancel
+                {t('modal.addBook.buttons.cancel')}
               </button>
               <button type="submit" className="btn btn-primary">
-                📚 List Book
+                {t('modal.addBook.buttons.addBook')}
               </button>
             </div>
           </form>

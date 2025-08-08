@@ -8,14 +8,16 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
-  "test:coverage": "vitest --coverage",
-  "test:e2e": "playwright test",
-  "postinstall": "npx playwright install"
+    "test:coverage": "vitest --coverage",
+    "test:e2e": "playwright test",
+    "postinstall": "npx playwright install"
   },
   "dependencies": {
     "heic2any": "^0.0.4",
+    "i18next": "^25.3.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-i18next": "^15.6.1",
     "react-router-dom": "^6.26.1"
   },
   "devDependencies": {

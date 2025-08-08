@@ -1,0 +1,68 @@
+{
+  "header": {
+    "title": "📚 Trao Đổi Sách Cộng Đồng",
+    "subtitle": "Chia sẻ sách với cộng đồng địa phương của bạn"
+  },
+  "loading": {
+    "text": "Đang tải sách..."
+  },
+  "book": {
+    "by": "của",
+    "owner": "📍",
+    "type": {
+      "free": "🎁 MIỄN PHÍ",
+      "sale": "💰 Bán rẻ"
+    },
+    "contact": {
+      "email": "📧 Gửi Email",
+      "phone": "📞 Sao Chép Số Điện Thoại",
+      "phoneAlert": "Số điện thoại đã được sao chép:"
+    }
+  },
+  "modal": {
+    "bookDetails": {
+      "type": "Loại:",
+      "description": "Mô tả:",
+      "contact": "Thông tin liên hệ:",
+      "freeGiveaway": "🎁 Tặng Miễn Phí",
+      "forSale": "💰 Bán rẻ"
+    },
+    "addBook": {
+      "title": "Thêm Sách Mới",
+      "form": {
+        "bookTitle": "Tên Sách",
+        "author": "Tác Giả",
+        "type": "Loại",
+        "sell": "Bán",
+        "giveaway": "Tặng Miễn Phí",
+        "price": "Giá ($)",
+        "description": "Mô Tả",
+        "photo": "Ảnh Sách",
+        "chooseFile": "Chọn tệp",
+        "ownerName": "Tên Của Bạn",
+        "contactMethod": "Phương Thức Liên Hệ",
+        "email": "Email",
+        "phone": "Điện Thoại",
+        "contactInfo": "Thông Tin Liên Hệ",
+        "emailPlaceholder": "email.cua.ban@gmail.com",
+        "phonePlaceholder": "+84 901001001"
+      },
+      "buttons": {
+        "cancel": "Hủy",
+        "addBook": "Đăng tải sách"
+      },
+      "validation": {
+        "photoRequired": "Vui lòng chọn một ảnh.",
+        "uploadFailed": "Không thể đăng tải sách. Vui lòng thử lại."
+      }
+    }
+  },
+  "fab": {
+    "tooltip": "Thêm sách"
+  },
+  "language": {
+    "selector": {
+      "tooltip": "Đổi Ngôn Ngữ"
+    }
+  }
+}

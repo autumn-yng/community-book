@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Book {
   id: number;
@@ -19,6 +20,8 @@ interface BookDetailsModalProps {
 }
 
 const BookDetailsModal: React.FC<BookDetailsModalProps> = ({ book, onClose }) => {
+  const { t } = useTranslation();
+  
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -34,7 +37,7 @@ const BookDetailsModal: React.FC<BookDetailsModalProps> = ({ book, onClose }) =>
     } else {
       // For phone numbers, we can show a dialog or copy to clipboard
       navigator.clipboard.writeText(book.contactInfo);
-      alert(`Phone number copied to clipboard: ${book.contactInfo}`);
+      alert(`${t('book.contact.phoneAlert')} ${book.contactInfo}`);
     }
   };
 
@@ -47,7 +50,7 @@ const BookDetailsModal: React.FC<BookDetailsModalProps> = ({ book, onClose }) =>
         
         <div className="modal-header">
           <h2>{book.title}</h2>
-          <p className="modal-author">by {book.author}</p>
+          <p className="modal-author">{t('book.by')} {book.author}</p>
         </div>
 
         <div className="modal-body">
@@ -66,21 +69,21 @@ const BookDetailsModal: React.FC<BookDetailsModalProps> = ({ book, onClose }) =>
 
           <div className="book-info-section">
             <div className="info-item">
-              <label>Type:</label>
+              <label>{t('modal.bookDetails.type')}</label>
               <span className="type-badge">
-                {book.type === 'GIVEAWAY' ? '🎁 Free Giveaway' : `💰 For Sale - $${book.price.toFixed(2)}`}
+                {book.type === 'GIVEAWAY' ? t('modal.bookDetails.freeGiveaway') : `${t('modal.bookDetails.forSale')} $${book.price.toFixed(2)}`}
               </span>
             </div>
           </div>
 
           <div className="description-section">
-            <label>Description:</label>
+            <label>{t('modal.bookDetails.description')}</label>
             <p className="book-description-full">{book.description}</p>
           </div>
 
           <div className="owner-section">
-            <label>Contact Information:</label>
-            <p className="owner-info">📍 {book.ownerName}</p>
+            <label>{t('modal.bookDetails.contact')}</label>
+            <p className="owner-info">{t('book.owner')} {book.ownerName}</p>
             <p className="contact-info">
               {book.contactMethod === 'EMAIL' ? '📧' : '📞'} {book.contactInfo}
             </p>
@@ -89,7 +92,7 @@ const BookDetailsModal: React.FC<BookDetailsModalProps> = ({ book, onClose }) =>
 
         <div className="modal-footer">
           <button className="btn btn-primary" onClick={handleContactOwner}>
-            {book.contactMethod === 'EMAIL' ? '📧 Send Email' : '📞 Copy Phone Number'}
+            {book.contactMethod === 'EMAIL' ? t('book.contact.email') : t('book.contact.phone')}
           </button>
         </div>
       </div>

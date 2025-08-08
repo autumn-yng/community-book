@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import BookDetailsModal from './BookDetailsModal';
 import AddBookModal from './AddBookModal';
+import LanguageSelector from './LanguageSelector';
 
 interface Book {
   id: number;
@@ -16,6 +18,7 @@ interface Book {
 }
 
 const HomePage: React.FC = () => {
+  const { t } = useTranslation();
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -66,7 +69,7 @@ const HomePage: React.FC = () => {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
-        <p>Loading books...</p>
+        <p>{t('loading.text')}</p>
       </div>
     );
   }
@@ -75,8 +78,13 @@ const HomePage: React.FC = () => {
     <div className="homepage">
       {/* Header */}
       <header className="app-header">
-        <h1>📚 Community Book Exchange</h1>
-        <p>Share books with your local community</p>
+        <div className="header-content">
+          <div className="header-text">
+            <h1>{t('header.title')}</h1>
+            <p>{t('header.subtitle')}</p>
+          </div>
+          <LanguageSelector />
+        </div>
       </header>
 
       {/* Book Grid */}
@@ -100,19 +108,19 @@ const HomePage: React.FC = () => {
                   }}
                 />
                 <div className="book-type-badge">
-                  {book.type === 'GIVEAWAY' ? '🎁 FREE' : `💰 $${book.price.toFixed(2)}`}
+                  {book.type === 'GIVEAWAY' ? t('book.type.free') : `${t('book.type.sale')} $${book.price.toFixed(2)}`}
                 </div>
               </div>
               <div className="book-content">
                 <h3 className="book-title">{book.title}</h3>
-                <p className="book-author">by {book.author}</p>
+                <p className="book-author">{t('book.by')} {book.author}</p>
                 <p className="book-description">
                   {book.description.length > 100 
                     ? `${book.description.substring(0, 100)}...` 
                     : book.description
                   }
                 </p>
-                <p className="book-owner">📍 {book.ownerName}</p>
+                <p className="book-owner">{t('book.owner')} {book.ownerName}</p>
               </div>
             </div>
           ))}
@@ -120,7 +128,7 @@ const HomePage: React.FC = () => {
       </main>
 
       {/* Floating Action Button */}
-      <button className="fab" onClick={handleAddBook} title="Add a book">
+      <button className="fab" onClick={handleAddBook} title={t('fab.tooltip')}>
         ➕
       </button>
 
