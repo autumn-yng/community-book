@@ -1,6 +1,6 @@
 # Community Book Exchange
 
-A full-stack web application for the residents in my local apartment buildings to share, sell, and discover used books within our community.
+A full-stack web application for the residents in my local apartment buildings to share, sell, and discover used books within our community. I'm still in the process of developing it! My next step is to to solidify the functionalities, deploy, test it out with a pool of trusted users to get feedback, before bringing it to real life users!
 
 ## Tech Stack
 
@@ -39,6 +39,13 @@ A full-stack web application for the residents in my local apartment buildings t
 - **Java OOP concepts**: Entity models, service layers, and dependency injection
 - **Basic project structure**: Separation of concerns across frontend, backend, and database layers
 - **AI-assisted development**: Learning from and collaborating with GitHub Copilot and ChatGPT while constantly and critically validating code suggestions
+
+## Demo
+
+<img width="1909" height="992" alt="Screenshot 2025-08-09 at 9 14 01 PM" src="https://github.com/user-attachments/assets/e6585ae0-1d9f-4cea-92a0-50f077106ad1" />
+<img width="1904" height="990" alt="Screenshot 2025-08-09 at 9 15 20 PM" src="https://github.com/user-attachments/assets/fa983471-a59d-4e6d-832b-afc055016a27" />
+<img width="1837" height="979" alt="Screenshot 2025-08-09 at 9 16 51 PM" src="https://github.com/user-attachments/assets/9d5eb237-1a1e-4de7-88e3-b5a196ad90d0" />
+
 
 ## Running the Application
 
