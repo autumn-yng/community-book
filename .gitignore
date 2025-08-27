@@ -22,7 +22,7 @@ target/
 # Spring Boot
 *.pid
 application-*.properties
-!application-example.properties
+!application-render.properties
 application-*.yml
 !application-example.yml
 

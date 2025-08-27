@@ -54,9 +54,10 @@ public class BookController {
         // Optionally set photoUrl to a download endpoint
         book.setPhotoUrl("/api/v1/books/" + book.getId() + "/photo");
         Book savedBook = bookService.saveBook(book);
-        // Update photoUrl with the real id after save
+        // After it passed bookService and bookRepository and got persisted in the database, the Controller here updates photoUrl with the real id from the database
         savedBook.setPhotoUrl("/api/v1/books/" + savedBook.getId() + "/photo");
         bookService.saveBook(savedBook);
+        // return a JSON response to React
         return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
     }
 
