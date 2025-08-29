@@ -1,0 +1,36 @@
+# Docker ignore file for Community Book Backend
+# This file tells Docker which files and directories to ignore when building the image
+
+# Maven target directory (contains compiled classes and JARs)
+target/
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Docker files (don't need these inside the container)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentation
+README*.md
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
