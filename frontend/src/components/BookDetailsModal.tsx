@@ -59,7 +59,7 @@ const BookDetailsModal: React.FC<BookDetailsModalProps> = ({ book, onClose }) =>
         <div className="modal-body">
           <div className="book-image-large">
             <img 
-              src={book.photoUrl && book.photoUrl.startsWith('/api/v1/books/') 
+              src={book.photoUrl && book.photoUrl.startsWith('/v1/books/') 
                 ? `${API_URL}${book.photoUrl}` 
                 : `${API_URL}/v1/books/${book.id}/photo`} 
               alt={book.title}

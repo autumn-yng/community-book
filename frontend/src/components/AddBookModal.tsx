@@ -1,3 +1,5 @@
+// Define API_URL with Vite env var and fallback
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import heic2any from 'heic2any';
@@ -62,7 +64,7 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ onClose, onBookAdded }) => 
     form.append('book', new Blob([JSON.stringify(newBook)], { type: 'application/json' }));
     form.append('photo', formData.photo);
     try {
-      const response = await fetch("http://localhost:8080/api/v1/books/upload", {
+  const response = await fetch(`${API_URL}/v1/books/upload`, {
         method: 'POST',
         body: form
       });

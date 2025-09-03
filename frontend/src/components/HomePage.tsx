@@ -101,7 +101,7 @@ const HomePage: React.FC = () => {
             >
               <div className="book-image">
                 <img 
-                  src={book.photoUrl && book.photoUrl.startsWith('/api/v1/books/') 
+                  src={book.photoUrl && book.photoUrl.startsWith('/v1/books/') 
                     ? `${API_URL}${book.photoUrl}` 
                     : `${API_URL}/v1/books/${book.id}/photo`} 
                   alt={book.title}
