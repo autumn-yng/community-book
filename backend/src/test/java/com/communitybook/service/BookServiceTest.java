@@ -40,7 +40,7 @@ class BookServiceMinimalTest {
         testBook.setTitle("Test Book");
         testBook.setAuthor("Test Author");
         testBook.setPrice(new BigDecimal("15.99"));
-        testBook.setPhotoUrl("/api/v1/books/1/photo");
+    testBook.setPhotoUrl("/v1/books/1/photo");
         testBook.setType(BookType.SELL);
         testBook.setDescription("A test book description");
         testBook.setOwnerName("Test Owner");
@@ -99,7 +99,7 @@ class BookServiceMinimalTest {
         Book updatedBookData = new Book();
         updatedBookData.setTitle("Updated Test Book");
         updatedBookData.setAuthor("Updated Author");
-        updatedBookData.setPhotoUrl("/api/v1/books/test/photo");
+    updatedBookData.setPhotoUrl("/v1/books/test/photo");
         updatedBookData.setType(BookType.SELL);
         updatedBookData.setPrice(new BigDecimal("20.99"));
         updatedBookData.setOwnerName("Updated Owner");

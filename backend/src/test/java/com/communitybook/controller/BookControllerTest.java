@@ -49,7 +49,7 @@ class BookControllerTest {
         testBook.setTitle("Test Book");
         testBook.setAuthor("Test Author");
         testBook.setPrice(new BigDecimal("15.99"));
-        testBook.setPhotoUrl("/api/v1/books/1/photo");
+    testBook.setPhotoUrl("/v1/books/1/photo");
         testBook.setType(BookType.SELL);
         testBook.setDescription("A test book description");
         testBook.setOwnerName("Test Owner");
@@ -176,7 +176,7 @@ class BookControllerTest {
         updatedBook.setTitle("Updated Title");
         updatedBook.setAuthor("Updated Author");
         updatedBook.setPrice(new BigDecimal("25.99"));
-        updatedBook.setPhotoUrl("/api/v1/books/1/photo");
+    updatedBook.setPhotoUrl("/v1/books/1/photo");
         updatedBook.setType(BookType.GIVEAWAY);
         updatedBook.setDescription("Updated description");
         updatedBook.setOwnerName("Updated Owner");

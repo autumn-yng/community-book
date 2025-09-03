@@ -51,7 +51,7 @@ class BookApiIntegrationTest {
         testBook.setTitle("Test Book");
         testBook.setAuthor("Test Author");
         testBook.setPrice(new BigDecimal("15.99"));
-        testBook.setPhotoUrl("/api/v1/books/test/photo");
+        testBook.setPhotoUrl("/v1/books/test/photo");
         testBook.setType(BookType.SELL);
         testBook.setDescription("A test book description");
         testBook.setOwnerName("Test Owner");
