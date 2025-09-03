@@ -4,6 +4,9 @@ import BookDetailsModal from './BookDetailsModal';
 import AddBookModal from './AddBookModal';
 import LanguageSelector from './LanguageSelector';
 
+// Define API_URL with Vite env var and fallback
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+
 interface Book {
   id: number;
   title: string;
@@ -26,7 +29,7 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     // Fetch real data from backend /books endpoint
-    fetch("http://localhost:8080/api/v1/books")
+    fetch(`${API_URL}/v1/books`) // be careful: it's the backtick `${API_URL}...`, not quotation mark "${API_URL}..."
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch books");
@@ -99,8 +102,8 @@ const HomePage: React.FC = () => {
               <div className="book-image">
                 <img 
                   src={book.photoUrl && book.photoUrl.startsWith('/api/v1/books/') 
-                    ? `http://localhost:8080${book.photoUrl}` 
-                    : `http://localhost:8080/api/v1/books/${book.id}/photo`} 
+                    ? `${API_URL}${book.photoUrl}` 
+                    : `${API_URL}/v1/books/${book.id}/photo`} 
                   alt={book.title}
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;

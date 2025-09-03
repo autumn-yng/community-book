@@ -1,6 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+// Define API_URL with Vite env var and fallback
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+
 interface Book {
   id: number;
   title: string;
@@ -57,8 +60,8 @@ const BookDetailsModal: React.FC<BookDetailsModalProps> = ({ book, onClose }) =>
           <div className="book-image-large">
             <img 
               src={book.photoUrl && book.photoUrl.startsWith('/api/v1/books/') 
-                ? `http://localhost:8080${book.photoUrl}` 
-                : `http://localhost:8080/api/v1/books/${book.id}/photo`} 
+                ? `${API_URL}${book.photoUrl}` 
+                : `${API_URL}/v1/books/${book.id}/photo`} 
               alt={book.title}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
