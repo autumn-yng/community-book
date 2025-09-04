@@ -7,7 +7,7 @@ To get an image URL to deploy on Render, I need to push the docker image to Dock
 
 # Commands
 The command that resulted in the first successful image: 
-docker build --platform linux/amd64 -t comm-book:1 
+docker build --platform linux/amd64 -t comm-book:1 .
 Note: 
 - build on amd64 even when the base image and other layers are built on arm64, because Render requires docker images to be built with linux/amd64.
 - we have to wait longer than usual, probably because of the platform emulation; even if we already see the image in docker images, docker image history comm-book:1 may fail if the image actually hasn’t finished running yet, so wait a bit and try again.

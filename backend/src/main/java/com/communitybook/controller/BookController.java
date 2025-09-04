@@ -18,26 +18,29 @@ import java.util.List;
 
 // Marks this class as a REST controller, so its methods handle HTTP requests and return data (usually JSON)
 @RestController
-// Sets the base URL path for all endpoints in this controller to /api/v1/books (API version 1)
-@RequestMapping("/api/v1/books")
-@CrossOrigin(origins = "http://localhost:3000")
+// Sets the base URL path for all endpoints in this controller to /api (API version 1 handled in endpoint paths)
+@RequestMapping("/api")
+@CrossOrigin(origins = {
+    "http://localhost:3000", // for local dev
+    "https://community-book.vercel.app" // deployed frontend URL
+})
 public class BookController {
     
     // Injects the BookService, which contains the business logic for books
     @Autowired
     private BookService bookService;
     
-    // Handles GET requests to /api/books
+    // Handles GET requests to /api/v1/books
     // Returns a list of all books
-    @GetMapping
+    @GetMapping("/v1/books")
     public ResponseEntity<List<Book>> getAllBooks() {
         List<Book> books = bookService.getAllBooks();
         return ResponseEntity.ok(books);
     }
     
-    // Handles GET requests to /api/books/{id}
+    // Handles GET requests to /api/v1/books/{id}
     // Returns a single book by its ID, or 404 if not found
-    @GetMapping("/{id}")
+    @GetMapping("/v1/books/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable Long id) {
         return bookService.getBookById(id)
                 .map(book -> ResponseEntity.ok(book))
@@ -45,7 +48,7 @@ public class BookController {
     }
     
     // Handles POST requests to /api/v1/books/upload (multipart form for image upload)
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/v1/books/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Book> createBookWithImage(
             @RequestPart("book") Book book,
             @RequestPart("photo") MultipartFile photo
@@ -62,7 +65,7 @@ public class BookController {
     }
 
     // Endpoint to serve the book image
-    @GetMapping("/{id}/photo")
+    @GetMapping("/v1/books/{id}/photo")
     public ResponseEntity<byte[]> getBookPhoto(@PathVariable Long id) {
         return bookService.getBookById(id)
                 .filter(book -> book.getPhotoData() != null)
@@ -102,9 +105,9 @@ public class BookController {
     }
     
 
-    // Handles PUT requests to /api/books/{id}
+    // Handles PUT requests to /api/v1/books/{id}
     // Updates an existing book by its ID with the data provided in the request body
-    @PutMapping("/{id}")
+    @PutMapping("/v1/books/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable Long id, @Valid @RequestBody Book book) {
         try {
             Book updatedBook = bookService.updateBook(id, book);
@@ -114,9 +117,9 @@ public class BookController {
         }
     }
     
-    // Handles DELETE requests to /api/books/{id}
+    // Handles DELETE requests to /api/v1/books/{id}
     // Deletes a book by its ID
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/v1/books/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
         if (bookService.getBookById(id).isPresent()) {
             bookService.deleteBook(id);
@@ -125,17 +128,17 @@ public class BookController {
         return ResponseEntity.notFound().build();
     }
     
-    // Handles GET requests to /api/books/type/{type}
+    // Handles GET requests to /api/v1/books/type/{type}
     // Returns a list of books filtered by their type
-    @GetMapping("/type/{type}")
+    @GetMapping("/v1/books/type/{type}")
     public ResponseEntity<List<Book>> getBooksByType(@PathVariable BookType type) {
         List<Book> books = bookService.getBooksByType(type);
         return ResponseEntity.ok(books);
     }
     
-    // Handles GET requests to /api/books/search?query=...
+    // Handles GET requests to /api/v1/books/search?query=...
     // Returns a list of books that match the search query
-    @GetMapping("/search")
+    @GetMapping("/v1/books/search")
     public ResponseEntity<List<Book>> searchBooks(@RequestParam String query) {
         List<Book> books = bookService.searchBooks(query);
         return ResponseEntity.ok(books);
