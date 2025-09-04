@@ -2,7 +2,7 @@
 
 A full-stack web application for the residents in my local apartment buildings to share, sell, and discover used books within our community. My next step is to test it out with a pool of trusted users to get feedback before bringing it to real life users!
 
-Try it out here: [community-book.vercel.app](https://community-book.vercel.app/)
+Try it out here: [community-book.vercel.app](https://community-book.vercel.app/) (Note: I'm hosting the backend with the free tier on Render, which means there's a 50-second delay in the first time you access the app after it has been inactive for a while. I will either pay Render or find another host before I release it for public use.)
 
 ## Tech Stack
 
