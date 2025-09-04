@@ -1,6 +1,8 @@
 # Community Book Exchange
 
-A full-stack web application for the residents in my local apartment buildings to share, sell, and discover used books within our community. I'm still in the process of developing it! My next step is to to solidify the functionalities, deploy, test it out with a pool of trusted users to get feedback, before bringing it to real life users!
+A full-stack web application for the residents in my local apartment buildings to share, sell, and discover used books within our community. My next step is to test it out with a pool of trusted users to get feedback before bringing it to real life users!
+
+Try it out here: [community-book.vercel.app](https://community-book.vercel.app/)
 
 ## Tech Stack
 
@@ -16,10 +18,13 @@ A full-stack web application for the residents in my local apartment buildings t
 - Maven for dependency management
 
 **Database:**
-- PostgreSQL with a simple books table
-- Stores book details, photos, and contact information
+- PostgreSQL table storing book details, photos, and contact information
 
-
+**Deployment:**
+- Vercel for frontend deployment
+- Render for backend deployment and Postgres instance
+- Docker for backend containerization since Render doesn't support Java Spring Boot backend natively
+  
 ## Features
 
 - Browse available books in a grid layout
