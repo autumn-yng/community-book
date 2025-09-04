@@ -47,7 +47,7 @@ Try it out here: [community-book.vercel.app](https://community-book.vercel.app/)
 
 ## Demo
 
-<img width="1909" height="992" alt="Screenshot 2025-08-09 at 9 14 01 PM" src="https://github.com/user-attachments/assets/e6585ae0-1d9f-4cea-92a0-50f077106ad1" />
+<img width="1920" height="1080" alt="Screenshot 2025-09-04 at 2 41 52 PM" src="https://github.com/user-attachments/assets/6add5e1b-3142-4cf2-bf0f-d958d8ff66dd" />
 <img width="1904" height="990" alt="Screenshot 2025-08-09 at 9 15 20 PM" src="https://github.com/user-attachments/assets/fa983471-a59d-4e6d-832b-afc055016a27" />
 <img width="1837" height="979" alt="Screenshot 2025-08-09 at 9 16 51 PM" src="https://github.com/user-attachments/assets/9d5eb237-1a1e-4de7-88e3-b5a196ad90d0" />
 
